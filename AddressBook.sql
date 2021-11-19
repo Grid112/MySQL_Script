@@ -10,7 +10,7 @@ create table Contacts(id int unsigned NOT NULL AUTO_INCREMENT, Name varchar(150)
 select * from Contacts;
 
 #UC3 - Insert Contacts
-insert into Contacts ( Name, Address, City, State, Zip, PhoneNumber, Email) VALUES ('Raju', 'Star Garage', 'Mumbai', 'Maharashtra', 230532, 8881212, 'raju@paisahipaisa.com'),('Ganshyam', 'Near Dadwadi', 'Jhalandar', 'Punjab', 230521, 2812512, 'ghanshyam@naukri.com'), ('Baburao Ganpatrao Apte', 'Star Garage', 'Mumbai', 'Maharashtra', 230532, 8881212, 'baburaoapte@stargarage.com');
+insert into Contacts ( Name, Address, City, State, Zip, PhoneNumber, Email) VALUES ('Ashish Ware', 'Kurla', 'Mumbai', 'Maharashtra', 230532, 9865423, 'ashishWare@gmail.com'),('Jayesh Badalmia', 'Near Dadwadi', 'Jhalandar', 'Punjab', 230521, 2812512, 'ghanshyam@naukri.com'), ('Nikhil Sharma', 'matunga', 'Mumbai', 'Maharashtra', 400071, 9756365, 'NikhilSharma@gmail.com.com');
 select * from Contacts;
 
 #UC4 - Update Contact using Name
@@ -29,3 +29,24 @@ select count(city) from Contacts where City = 'Mumbai' or State = 'Maharashtra';
 
 #UC8 - Sort Contacts by Person's name in given City or State
 select * from Contacts where City = 'Mumbai' order by Name asc;
+
+#UC9 - Ability to identify each Address Book with Address_Book_Name and Address_Book_Type
+ALTER TABLE Contacts ADD address_book_name VARCHAR(50) NOT NULL AFTER Email;
+ALTER TABLE Contacts ADD address_book_type VARCHAR(50) NOT NULL AFTER address_book_name;
+SELECT * FROM Contacts;
+
+UPDATE Contacts SET address_book_name = 'address_book_1' WHERE Name = 'Ashish Ware';
+UPDATE Contacts SET address_book_name = 'address_book_2' WHERE Name = 'Nikhil Sharma';
+
+UPDATE Contacts SET address_book_type = 'Family' WHERE address_book_name = 'address_book_1';
+UPDATE Contacts SET address_book_type = 'Friend' WHERE address_book_name = 'address_book_2';										
+
+SELECT * FROM Contacts;
+
+#UC10 - Ability to get number of contact persons by type
+SELECT address_book_type,COUNT(*) FROM Contacts WHERE address_book_type = 'Friend';
+SELECT address_book_type,COUNT(*) FROM Contacts WHERE address_book_type = 'Family';
+
+
+
+
