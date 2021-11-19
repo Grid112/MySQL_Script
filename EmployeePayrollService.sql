@@ -39,3 +39,63 @@ select max(Salary) from employee_payroll where Gender = 'M' group by Gender;
 
 select count(Salary) from employee_payroll where Gender = 'F' group by Gender;
 select count(Salary) from employee_payroll where Gender = 'M' group by Gender;
+
+# UC8: Ability to Extend employee_payroll data to store employee Phone Number, Address and Department
+alter table employee_payroll add phone_number char(12) after name;
+alter table employee_payroll add address char(50) after phone_number;
+alter table employee_payroll add department char(50) after address;
+select * from employee_payroll;
+
+# UC 9: Ability to extend employee_payroll table to store Basic Pay, Deductions, Taxable pay, Income tax, Net pay
+alter table employee_payroll add basic_pay char(12) after gender;
+alter table employee_payroll add deductions double after basic_pay;
+alter table employee_payroll add taxable_pay double after deductions;
+alter table employee_payroll add tax double after taxable_pay;
+alter table employee_payroll add net_pay double after tax;
+select * from employee_payroll;
+
+# UC10: Ability to make Terissa as part of Sales and Marketing Department
+insert into employee_payroll
+(name, department, gender, basic_pay, deductions, taxable_pay, tax, net_pay, start) values
+('Terisa', 'Marketing', 'F', 3000000.00, 1000000.00, 2000000.00, 500000.00, 1500000.00, '2019-11-13');
+insert into employee_payroll
+(name, department, gender, basic_pay, deductions, taxable_pay, tax, net_pay, start) values
+('Terisa', 'Sales', 'F', 3000000.00, 0.00, 0.00, 0.00, 0.00, '2019-11-13');
+select * from employee_payroll;
+
+# UC11: Create table of employee_department
+create table employee_department (
+department_id int unsigned not null auto_increment,
+department char(50),
+employee_id int unsigned not null,
+PRIMARY KEY (department_id),
+FOREIGN KEY (employee_id) REFERENCES employee_payroll(id)
+			ON DELETE CASCADE
+);
+
+insert into employee_department (department, employee_id) values  ('Sales', 4);
+insert into employee_department (department, employee_id) values  ('Marketing', 5);
+
+select sum(basic_pay) from employee_payroll where gender = 'F' group by gender;
+select sum(basic_pay) from employee_payroll where gender = 'M' group by gender;
+
+select avg(basic_pay) from employee_payroll where gender = 'F' group by gender;
+select avg(basic_pay) from employee_payroll where gender = 'M' group by gender;
+
+select min(basic_pay) from employee_payroll where gender = 'F' group by gender;
+select min(basic_pay) from employee_payroll where gender = 'M' group by gender;
+
+select max(basic_pay) from employee_payroll where gender = 'F' group by gender;
+select max(basic_pay) from employee_payroll where gender = 'M' group by gender;
+
+select count(basic_pay) from employee_payroll where gender = 'F' group by gender;
+select count(basic_pay) from employee_payroll where gender = 'M' group by gender;
+
+# UC12: all retrieve query working with new table structure
+select * from employee_department;
+select * from employee_payroll;
+select department from employee_department where department_id= 1;
+select * from employee_payroll
+	where start between cast('2018-01-01' as date) and date(now());
+
+
